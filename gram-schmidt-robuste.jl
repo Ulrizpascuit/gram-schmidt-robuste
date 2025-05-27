@@ -1,13 +1,8 @@
-# gram-schmidt-robuste.jl
-"""
-    gram_schmidt_robuste(A::AbstractMatrix; atol=1e-12)
+using LinearAlgebra
 
-Version plus robuste : signale les colonnes quasi-nulles (tolérance réglable).
-Retourne une matrice Q dont les colonnes sont orthonormales, ignore les colonnes quasi-nulles.
-"""
 function gram_schmidt_robuste(A::AbstractMatrix; atol=1e-12)
     n, m = size(A)
-    Q = zeros(eltype(A), n, m)
+    Q = zeros(float(eltype(A)), n, m)   # Correction ici
     nb_vects = 0
     for j in 1:m
         v = A[:,j]

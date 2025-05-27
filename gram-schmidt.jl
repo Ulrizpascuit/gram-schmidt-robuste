@@ -1,13 +1,8 @@
-# gram-schmidt.jl
-"""
-    gram_schmidt(A::AbstractMatrix)
+using LinearAlgebra
 
-Implémente la méthode classique de Gram-Schmidt pour orthonormaliser les colonnes de A.
-Retourne une matrice Q dont les colonnes sont orthonormales.
-"""
 function gram_schmidt(A::AbstractMatrix)
     n, m = size(A)
-    Q = zeros(eltype(A), n, m)
+    Q = zeros(float(eltype(A)), n, m)   # <-- Correction ici
     for j in 1:m
         v = A[:,j]
         for i in 1:j-1

@@ -1,5 +1,5 @@
 # test.jl
-using Test
+using Test, LinearAlgebra
 include("gram-schmidt.jl")
 include("gram-schmidt-robuste.jl")
 
