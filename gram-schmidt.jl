@@ -2,7 +2,7 @@ using LinearAlgebra
 
 function gram_schmidt(A::AbstractMatrix)
     n, m = size(A)
-    Q = zeros(float(eltype(A)), n, m)   # <-- Correction ici
+    Q = zeros(n, m)   
     for j in 1:m
         v = A[:,j]
         for i in 1:j-1

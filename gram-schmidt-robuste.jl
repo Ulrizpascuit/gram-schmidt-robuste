@@ -2,7 +2,7 @@ using LinearAlgebra
 
 function gram_schmidt_robuste(A::AbstractMatrix; atol=1e-12)
     n, m = size(A)
-    Q = zeros(float(eltype(A)), n, m)   # Correction ici
+    Q = zeros(n, m)
     nb_vects = 0
     for j in 1:m
         v = A[:,j]

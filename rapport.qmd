@@ -2,8 +2,8 @@
 title: "Rapport de laboratoire 1: méthode de Gram-Schmidt"
 subtitle: "MTH8211"
 author:
-  - name: Votre nom
-    email: votre.adresse@polymtl.ca
+  - name: Ulrich Baron-Fournier
+    email: ulrich.baron-fournier@polymtl.ca
     affiliation:
       - name: Polytechnique Montréal
 format:
@@ -21,32 +21,42 @@ engine: julia
 ```{julia}
 #| output: false
 using Pkg
-Pkg.activate("rapport_env")    # activate a virtual environment
+Pkg.activate("rapport_env")   
+Pkg.add("Test")                
+Pkg.add("LinearAlgebra")
+
+using Test                        
+using LinearAlgebra                
 ```
 
 # Implémentation de Gram-Schmidt classique
-
-<!--
-Inclure la méthode vue en classe dans gram-schmidt.jl et l'afficher ici.
--->
+```{julia}
+{{< include gram-schmidt.jl >}}
+```
 
 # Illustration de l'échec en cas de dépendance linéaire
-
-<!--
-Proposer un exemple qui met l'implémentation classique en défaut.
-Expliquer la cause de l'échec.
--->
+```{julia}
+try
+    A_dep = [1 2; 2 4]
+    gram_schmidt(A_dep)
+catch e
+    println("Erreur obtenue :")
+    println(e)
+end
+```
+Ici, la deuxième colonne est un multiple de la première, donc la famille est linéairement dépendante. L’algorithme échoue car il obtient un vecteur nul lors de l’orthogonalisation.
 
 # Implémentation de Gram-Schmidt plus robuste
 
-<!--
-Proposer une manière de vérifier que les vecteurs d'entrée sont linéairement dépendants.
-Votre proposition n'a pas besoin d'être parfaite, mais vous devez discuter ses avantages et inconvénients.
-Implémenter cette méthode dans un fichier gram-schmidt-robuste.jl.
--->
+Pour traiter le cas général, nous testons si la norme du vecteur à ajouter est inférieure à un seuil (tolérance atol). Les colonnes dépendantes (ou quasi-dépendantes) sont simplement ignorées :
+```{julia}
+{{< include gram-schmidt-robuste.jl >}}
+```
+
+Les avantages de cette méthode est que la fonction ne renvoie pas un message d'erreur si les colonnes sont dépendantes et cette fonction permet de traiter des matrices presques dépendantes (dans les cas où on retrouve des problèmes numériques). Les limites de cette modifications de la fonction sont le choix du paramètre atol qui peut influencer le résultat final. De plus, on ne peut pas savoir à l'avance combien de vecteurs seront retenus.
 
 # Démonstration de la nouvelle implémentation
 
-<!--
-Inclure ici votre test.jl et l'exécuter.
--->
+```{julia}
+{{< include test.jl >}}
+```
